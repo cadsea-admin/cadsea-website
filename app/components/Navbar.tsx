@@ -22,7 +22,7 @@ export default function Navbar() {
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false)
   const [desktopAboutOpen, setDesktopAboutOpen] = useState(false)
   const pathname = usePathname()
-  const aboutRef = useRef<HTMLDivElement>(null)
+  const aboutRef = useRef<HTMLLIElement>(null)
 
   // Close desktop dropdown when clicking outside
   useEffect(() => {
