@@ -8,6 +8,7 @@ import type {
 const notion = new Client({ auth: process.env.NOTION_API_KEY })
 
 export type { RichTextItemResponse }
+export type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
 // ── Property extractors ────────────────────────────────────────────────────
 
