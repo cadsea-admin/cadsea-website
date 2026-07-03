@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const aboutLinks = [
@@ -24,7 +25,6 @@ export default function Navbar() {
   const pathname = usePathname()
   const aboutRef = useRef<HTMLLIElement>(null)
 
-  // Close desktop dropdown when clicking outside
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (aboutRef.current && !aboutRef.current.contains(e.target as Node)) {
@@ -37,25 +37,29 @@ export default function Navbar() {
 
   const isAboutActive = pathname.startsWith('/about')
   const linkClass = (href: string) =>
-    `text-sm font-medium transition-colors ${
-      pathname === href ? 'text-gold' : 'text-white/80 hover:text-white'
+    `text-base font-semibold transition-colors ${
+      pathname === href ? 'text-gold' : 'text-white/85 hover:text-white'
     }`
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-navy shadow-md">
-      <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-navy shadow-lg">
+      <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          {/* Logo placeholder — replace with <Image> when ready */}
-          <div className="w-8 h-8 rounded-md bg-gold/20 border border-gold/40 flex items-center justify-center">
-            <span className="text-gold text-xs font-bold">C</span>
+        <Link href="/" className="shrink-0">
+          <div className="bg-white rounded-lg px-3 py-1.5">
+            <Image
+              src="/images/logo/CADSEA-logo-no-background.png"
+              alt="CADSEA"
+              width={160}
+              height={56}
+              className="object-contain h-11 w-auto"
+            />
           </div>
-          <span className="text-white font-bold text-lg tracking-wide hidden sm:block">CADSEA</span>
         </Link>
 
         {/* Desktop links */}
-        <ul className="hidden lg:flex items-center gap-6">
+        <ul className="hidden lg:flex items-center gap-8">
           {navLinks.slice(0, 3).map(({ href, label }) => (
             <li key={href}>
               <Link href={href} className={linkClass(href)}>{label}</Link>
@@ -66,13 +70,13 @@ export default function Navbar() {
           <li ref={aboutRef} className="relative">
             <button
               onClick={() => setDesktopAboutOpen((v) => !v)}
-              className={`flex items-center gap-1 text-sm font-medium transition-colors ${
-                isAboutActive ? 'text-gold' : 'text-white/80 hover:text-white'
+              className={`flex items-center gap-1.5 text-base font-semibold transition-colors ${
+                isAboutActive ? 'text-gold' : 'text-white/85 hover:text-white'
               }`}
             >
               About Us
               <svg
-                className={`w-3.5 h-3.5 transition-transform ${desktopAboutOpen ? 'rotate-180' : ''}`}
+                className={`w-4 h-4 transition-transform ${desktopAboutOpen ? 'rotate-180' : ''}`}
                 fill="none" stroke="currentColor" viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -80,13 +84,13 @@ export default function Navbar() {
             </button>
 
             {desktopAboutOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-52 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-56 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden">
                 {aboutLinks.map(({ href, label }) => (
                   <Link
                     key={href}
                     href={href}
                     onClick={() => setDesktopAboutOpen(false)}
-                    className="block px-4 py-2.5 text-sm text-navy hover:bg-slate hover:text-navy-light transition-colors"
+                    className="block px-5 py-3 text-sm font-medium text-navy hover:bg-slate-50 hover:text-navy-light transition-colors"
                   >
                     {label}
                   </Link>
@@ -108,7 +112,7 @@ export default function Navbar() {
           className="lg:hidden text-white p-2"
           aria-label="Toggle menu"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {mobileOpen
               ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -119,13 +123,13 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-navy-light border-t border-white/10 px-6 py-4 space-y-1">
+        <div className="lg:hidden bg-navy-light border-t border-white/10 px-6 py-5 space-y-1">
           {navLinks.slice(0, 3).map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setMobileOpen(false)}
-              className={`block py-2.5 text-sm font-medium ${pathname === href ? 'text-gold' : 'text-white/80'}`}
+              className={`block py-3 text-base font-semibold ${pathname === href ? 'text-gold' : 'text-white/85'}`}
             >
               {label}
             </Link>
@@ -135,26 +139,26 @@ export default function Navbar() {
           <div>
             <button
               onClick={() => setMobileAboutOpen((v) => !v)}
-              className={`w-full flex items-center justify-between py-2.5 text-sm font-medium ${
-                isAboutActive ? 'text-gold' : 'text-white/80'
+              className={`w-full flex items-center justify-between py-3 text-base font-semibold ${
+                isAboutActive ? 'text-gold' : 'text-white/85'
               }`}
             >
               About Us
               <svg
-                className={`w-3.5 h-3.5 transition-transform ${mobileAboutOpen ? 'rotate-180' : ''}`}
+                className={`w-4 h-4 transition-transform ${mobileAboutOpen ? 'rotate-180' : ''}`}
                 fill="none" stroke="currentColor" viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
             {mobileAboutOpen && (
-              <div className="pl-4 space-y-1 border-l border-white/10 ml-1 mb-1">
+              <div className="pl-4 space-y-1 border-l border-white/10 ml-1 mb-2">
                 {aboutLinks.map(({ href, label }) => (
                   <Link
                     key={href}
                     href={href}
                     onClick={() => { setMobileOpen(false); setMobileAboutOpen(false) }}
-                    className="block py-2 text-sm text-white/60 hover:text-white"
+                    className="block py-2.5 text-sm font-medium text-white/70 hover:text-white"
                   >
                     {label}
                   </Link>
@@ -168,7 +172,7 @@ export default function Navbar() {
               key={href}
               href={href}
               onClick={() => setMobileOpen(false)}
-              className={`block py-2.5 text-sm font-medium ${pathname === href ? 'text-gold' : 'text-white/80'}`}
+              className={`block py-3 text-base font-semibold ${pathname === href ? 'text-gold' : 'text-white/85'}`}
             >
               {label}
             </Link>

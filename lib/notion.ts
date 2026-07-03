@@ -77,7 +77,7 @@ function mapPage(page: PageObjectResponse): NotionEvent {
 
 export async function getEvents(): Promise<NotionEvent[]> {
   const response = await notion.databases.query({
-    database_id: process.env.NOTION_DATABASE_ID!,
+    database_id: process.env.NOTION_EVENT_ID!,
     // TODO: add Status field to Notion database, then uncomment:
     // filter: { property: 'Status', select: { equals: 'Published' } },
     sorts: [{ property: 'Date', direction: 'ascending' }],
@@ -101,6 +101,52 @@ export async function getEventBlocks(id: string): Promise<BlockObjectResponse[]>
     page_size: 100,
   })
   return response.results as BlockObjectResponse[]
+}
+
+// ── Promoters ──────────────────────────────────────────────────────────────
+
+export type Promoter = {
+  id: string
+  name: string
+  task: string
+  count: string
+}
+
+export async function getPromoters(): Promise<Promoter[]> {
+  const response = await notion.databases.query({
+    database_id: process.env.NOTION_PROMOTERS_ID!,
+    sorts: [{ property: 'Name', direction: 'ascending' }],
+  })
+
+  return (response.results as PageObjectResponse[]).map((page) => ({
+    id: page.id,
+    name: extractText(page.properties['Name']),
+    task: extractText(page.properties['Task']),
+    count: extractText(page.properties['Count']),
+  }))
+}
+
+// ── Event Volunteers ───────────────────────────────────────────────────────
+
+export type EventVolunteer = {
+  id: string
+  name: string
+  eventName: string
+  date: string | null
+}
+
+export async function getEventVolunteers(): Promise<EventVolunteer[]> {
+  const response = await notion.databases.query({
+    database_id: process.env.NOTION_EVENT_VOLUNTEERS_ID!,
+    sorts: [{ property: 'Date', direction: 'descending' }],
+  })
+
+  return (response.results as PageObjectResponse[]).map((page) => ({
+    id: page.id,
+    name: extractText(page.properties['Name']),
+    eventName: extractText(page.properties['EventName']),
+    date: extractDate(page.properties['Date']),
+  }))
 }
 
 export default notion
