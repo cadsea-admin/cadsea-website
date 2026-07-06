@@ -90,11 +90,15 @@ export async function getEventById(id: string): Promise<NotionEvent | null> {
 }
 
 export async function getEventBlocks(id: string): Promise<string> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const n2m = new NotionToMarkdown({ notionClient: notion as any })
-  const mdBlocks = await n2m.pageToMarkdown(id)
-  const { parent } = n2m.toMarkdownString(mdBlocks)
-  return parent
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const n2m = new NotionToMarkdown({ notionClient: notion as any })
+    const mdBlocks = await n2m.pageToMarkdown(id)
+    const { parent } = n2m.toMarkdownString(mdBlocks)
+    return parent
+  } catch {
+    return ''
+  }
 }
 
 // ── Promoters ──────────────────────────────────────────────────────────────

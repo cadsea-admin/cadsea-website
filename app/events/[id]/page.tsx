@@ -5,7 +5,7 @@ import { marked } from 'marked'
 import { getEventById, getEventBlocks } from '@/lib/notion'
 import PosterLightbox from '@/app/components/PosterLightbox'
 
-export const revalidate = 600 // revalidate every 10 minutes
+export const revalidate = 86400
 
 type Props = { params: Promise<{ id: string }> }
 
