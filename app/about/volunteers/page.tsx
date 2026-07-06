@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { getPromoters, getEventVolunteers } from '@/lib/notion'
 import type { EventVolunteer } from '@/lib/notion'
 
-export const revalidate = 86400 // revalidate every 24 hours
+export const revalidate = 600 // revalidate every 10 minutes
 
 export const metadata: Metadata = {
   title: 'Volunteers',

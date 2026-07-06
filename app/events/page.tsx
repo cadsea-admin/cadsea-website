@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { getEvents } from '@/lib/notion'
 import type { NotionEvent } from '@/lib/notion'
 
-export const revalidate = 86400 // revalidate every 24 hours
+export const revalidate = 600 // revalidate every 10 minutes
 
 export const metadata: Metadata = {
   title: 'Events',
