@@ -2,8 +2,6 @@ import type { Metadata } from 'next'
 import { getPromoters, getEventVolunteers } from '@/lib/notion'
 import type { EventVolunteer } from '@/lib/notion'
 
-export const revalidate = 86400
-
 export const metadata: Metadata = {
   title: 'Volunteers',
   description: 'Meet the CADSEA volunteers who help promote our events and support our community.',

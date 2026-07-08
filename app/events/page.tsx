@@ -4,8 +4,6 @@ import Link from 'next/link'
 import { getEvents } from '@/lib/notion'
 import type { NotionEvent } from '@/lib/notion'
 
-export const revalidate = 86400
-
 export const metadata: Metadata = {
   title: 'Events',
   description: 'Upcoming and past events hosted by CADSEA.',
@@ -56,7 +54,12 @@ function EventCard({ event, upcoming }: { event: NotionEvent; upcoming: boolean 
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span>{event.location}</span>
+              <a
+                href={`https://maps.google.com/?q=${encodeURIComponent(event.location)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-navy hover:underline relative z-10"
+              >{event.location}</a>
             </div>
           )}
         </div>
@@ -73,9 +76,12 @@ function EventCard({ event, upcoming }: { event: NotionEvent; upcoming: boolean 
               href={event.registerLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-center py-2.5 rounded-lg bg-gold text-navy font-semibold text-sm hover:bg-gold-light transition-colors"
+              className="block w-full text-center py-3 rounded-lg bg-gold text-navy font-bold text-base shadow-md hover:bg-gold-light hover:shadow-lg transition-all flex items-center justify-center gap-1.5"
             >
               Register Now
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
             </a>
           </div>
         )}

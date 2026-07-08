@@ -5,8 +5,6 @@ import { marked } from 'marked'
 import { getEventById, getEventBlocks } from '@/lib/notion'
 import PosterLightbox from '@/app/components/PosterLightbox'
 
-export const revalidate = 86400
-
 type Props = { params: Promise<{ id: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -39,7 +37,7 @@ export default async function EventDetailPage({ params }: Props) {
   if (!event) notFound()
 
   const upcoming = event.status === 'Upcoming'
-  const html = await marked(markdown)
+  const html = markdown ? await marked(markdown) : ''
 
   return (
     <>
@@ -96,13 +94,15 @@ export default async function EventDetailPage({ params }: Props) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <span className="font-medium">{event.location}</span>
-              </div>
-            )}
-            {event.address && (
-              <div className="flex items-center gap-3 text-slate-500">
-                <div className="w-9 h-9 shrink-0" />
-                <span className="text-sm">{event.address}</span>
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent([event.location, event.address].filter(Boolean).join(', '))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium hover:text-navy hover:underline"
+                >
+                  {event.location}
+                  {event.address && <span className="block text-sm font-normal text-slate-500">{event.address}</span>}
+                </a>
               </div>
             )}
           </div>
@@ -114,9 +114,12 @@ export default async function EventDetailPage({ params }: Props) {
                 href={event.registerLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2.5 rounded-lg bg-gold text-navy font-semibold text-sm hover:bg-gold-light transition-colors"
+                className="px-8 py-3 rounded-lg bg-gold text-navy font-bold text-base shadow-md hover:bg-gold-light hover:shadow-lg transition-all flex items-center gap-2"
               >
                 Register Now
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                </svg>
               </a>
             )}
             <a
