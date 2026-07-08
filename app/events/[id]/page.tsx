@@ -145,7 +145,7 @@ export default async function EventDetailPage({ params }: Props) {
         {/* Notion page content */}
         {html && (
           <div
-            className="prose prose-slate max-w-none prose-headings:text-navy prose-a:text-navy prose-img:rounded-xl"
+            className="prose prose-slate max-w-none prose-headings:text-navy prose-a:text-navy [&_img]:mx-auto [&_img]:block [&_img]:max-w-full [&_img]:w-auto [&_img]:h-auto [&_img]:rounded-xl"
             dangerouslySetInnerHTML={{ __html: html }}
           />
         )}
