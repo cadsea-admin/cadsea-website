@@ -107,23 +107,23 @@ export default async function EventDetailPage({ params }: Props) {
                 </a>
               </div>
             )}
+            {event.price !== undefined && event.price !== '' && (
+              <div className="flex items-center gap-3 text-slate-600">
+                <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <span className={`font-medium ${event.price === '0' ? 'text-green-600 font-bold' : ''}`}>
+                  {event.price === '0' ? 'FREE' : event.price}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-3 mt-6">
-            {upcoming && event.registerLink && (
-              <a
-                href={event.registerLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-10 py-4 rounded-xl bg-gold text-navy font-extrabold text-lg shadow-lg hover:bg-gold-light hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2"
-              >
-                🎟 Register Now
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-            )}
             <a
               href={googleCalendarUrl(event)}
               target="_blank"
