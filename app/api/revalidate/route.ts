@@ -1,5 +1,5 @@
 import { revalidatePath } from 'next/cache'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 function checkSecret(request: NextRequest): boolean {
   const secret = request.nextUrl.searchParams.get('secret')
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
   const redirect = request.nextUrl.searchParams.get('redirect')
   if (redirect) {
-    return Response.redirect(redirect)
+    return NextResponse.redirect(redirect)
   }
 
   const time = new Date().toLocaleString('zh-CN', { timeZone: 'America/New_York' })
