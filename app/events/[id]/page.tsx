@@ -74,8 +74,9 @@ export default async function EventDetailPage({ params }: Props) {
 
           <h1 className="text-navy text-3xl md:text-4xl font-bold leading-tight mb-6">{event.title}</h1>
 
-          {/* Meta */}
-          <div className="flex flex-col gap-3">
+          {/* Meta + Map */}
+          <div className="flex flex-col md:flex-row gap-6">
+          <div className="flex flex-col gap-3 flex-1">
             {event.date && (
               <div className="flex items-center gap-3 text-slate-600">
                 <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
@@ -120,7 +121,6 @@ export default async function EventDetailPage({ params }: Props) {
                 </span>
               </div>
             )}
-          </div>
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-3 mt-6">
@@ -136,6 +136,23 @@ export default async function EventDetailPage({ params }: Props) {
               </svg>
               Add to Google Calendar
             </a>
+          </div>
+          </div>
+
+          {/* Map */}
+          {event.location && (
+            <div className="w-full md:w-72 lg:w-96 shrink-0 rounded-xl overflow-hidden border border-slate-100 shadow-sm h-56 md:h-auto">
+              <iframe
+                src={`https://maps.google.com/maps?q=${encodeURIComponent([event.location, event.address].filter(Boolean).join(', '))}&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: '224px' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          )}
           </div>
         </div>
 
