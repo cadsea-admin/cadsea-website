@@ -19,9 +19,11 @@ function EventCard({ event, upcoming }: { event: NotionEvent; upcoming: boolean 
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
         <span className={`self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 ${
-          upcoming ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'
+          event.status === 'Upcoming' ? 'bg-green-100 text-green-700' :
+          event.status === 'Recap' ? 'bg-blue-100 text-blue-600' :
+          'bg-slate-100 text-slate-500'
         }`}>
-          {upcoming ? 'Upcoming' : 'Past'}
+          {event.status === 'Recap' ? 'Recap' : upcoming ? 'Upcoming' : 'Past'}
         </span>
 
         <h3 className="text-navy font-bold text-xl leading-snug mb-4">{event.title}</h3>
