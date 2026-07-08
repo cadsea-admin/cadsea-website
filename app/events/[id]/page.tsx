@@ -58,9 +58,9 @@ export default async function EventDetailPage({ params }: Props) {
       <div className="max-w-4xl mx-auto px-6 py-10">
 
         {/* Poster */}
-        {event.poster && (
+        {event.image && (
           <div className="mb-8">
-            <PosterLightbox src={event.poster} alt={event.title} />
+            <PosterLightbox src={event.image} alt={event.title} />
           </div>
         )}
 
@@ -116,10 +116,10 @@ export default async function EventDetailPage({ params }: Props) {
                 href={event.registerLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-3 rounded-lg bg-gold text-navy font-bold text-base shadow-md hover:bg-gold-light hover:shadow-lg transition-all flex items-center gap-2"
+                className="px-10 py-4 rounded-xl bg-gold text-navy font-extrabold text-lg shadow-lg hover:bg-gold-light hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2"
               >
-                Register Now
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                🎟 Register Now
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                 </svg>
               </a>

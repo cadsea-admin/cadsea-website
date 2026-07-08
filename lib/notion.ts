@@ -53,7 +53,7 @@ export type NotionEvent = {
   address: string
   description: string
   registerLink: string
-  poster: string
+  image: string
   status: 'Upcoming' | 'Past' | 'Recap' | string
 }
 
@@ -66,7 +66,7 @@ function mapEvent(page: PageObjectResponse): NotionEvent {
     address: extractText(page.properties['Address']),
     description: extractText(page.properties['Description']),
     registerLink: extractText(page.properties['RegisterLink']),
-    poster: extractFile(page.properties['Poster']),
+    image: extractFile(page.properties['Image']),
     status: extractStatus(page.properties['Status']),
   }
 }

@@ -47,26 +47,6 @@ function RosetteBadge() {
   )
 }
 
-const hallOfFame = [
-  { name: 'Jane Smith', year: '2023', contribution: 'Led 12 events as primary organizer' },
-  { name: 'Michael Chen', year: '2023', contribution: 'Grew WeChat community by 500+ members' },
-  { name: 'Emily Wang', year: '2022', contribution: 'Coordinated 3 major career forums' },
-]
-
-const highlights = [
-  {
-    name: 'Sarah Liu',
-    role: 'Event Coordinator',
-    quote:
-      "Volunteering with CADSEA has been one of the most rewarding experiences of my career. I've built lasting friendships and learned so much from our community.",
-  },
-  {
-    name: 'David Zhang',
-    role: 'Social Media Promoter',
-    quote:
-      'I joined as a promoter and ended up discovering my passion for community building. CADSEA gave me a platform to make a real impact.',
-  },
-]
 
 export default async function VolunteersPage() {
   const [promoters, eventVolunteers] = await Promise.all([
@@ -75,6 +55,11 @@ export default async function VolunteersPage() {
   ])
 
   const groupedEvents = groupByEvent(eventVolunteers)
+  const sortedPromoters = [...promoters].sort((a, b) => {
+    if (a.count === 'All' && b.count !== 'All') return -1
+    if (a.count !== 'All' && b.count === 'All') return 1
+    return (parseInt(b.count) || 0) - (parseInt(a.count) || 0)
+  })
 
   return (
     <>
@@ -92,64 +77,6 @@ export default async function VolunteersPage() {
             CADSEA is powered by dedicated volunteers who promote our events and strengthen our community.
             Thank you to everyone who contributes their time and energy.
           </p>
-        </div>
-      </section>
-
-      {/* ── Hall of Fame ── */}
-      <section className="py-16 px-6 bg-amber-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-400 mb-4">
-              <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z" />
-              </svg>
-            </div>
-            <h2 className="text-navy text-3xl font-bold mb-2">Volunteer Hall of Fame</h2>
-            <p className="text-slate-600 max-w-xl mx-auto">
-              Recognizing volunteers who have gone above and beyond in serving our community.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {hallOfFame.map((h) => (
-              <div key={h.name} className="relative bg-white rounded-2xl p-6 shadow-md border border-amber-200 text-center overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-300 via-amber-400 to-amber-300" />
-                <div className="w-16 h-16 rounded-full bg-amber-400 border-4 border-amber-200 flex items-center justify-center text-white font-bold text-2xl mx-auto mb-3 mt-1">
-                  {h.name[0]}
-                </div>
-                <p className="text-navy font-bold text-base">{h.name}</p>
-                <p className="text-amber-600 text-xs font-bold tracking-widest uppercase mt-1 mb-3">{h.year}</p>
-                <p className="text-slate-600 text-sm leading-relaxed">{h.contribution}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Volunteer Highlights ── */}
-      <section className="py-16 px-6 bg-slate-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-8">
-            <span className="text-gold text-sm font-semibold tracking-widest uppercase">Stories</span>
-            <h2 className="text-navy text-2xl font-bold mt-1">Volunteer Highlights</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {highlights.map((s) => (
-              <div key={s.name} className="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm">
-                <div className="text-navy text-5xl font-serif leading-none mb-3 select-none">&ldquo;</div>
-                <p className="text-slate-700 leading-relaxed mb-6">{s.quote}</p>
-                <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
-                  <div className="w-9 h-9 rounded-full bg-navy flex items-center justify-center text-white text-sm font-bold shrink-0">
-                    {s.name[0]}
-                  </div>
-                  <div>
-                    <p className="text-navy font-semibold text-sm">{s.name}</p>
-                    <p className="text-slate-500 text-xs">{s.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -176,7 +103,7 @@ export default async function VolunteersPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {promoters.map((p) => (
+                    {sortedPromoters.map((p) => (
                       <tr key={p.id} className="bg-white hover:bg-slate-50 transition-colors">
                         <td className="px-5 py-3.5 font-semibold text-navy">{p.name}</td>
                         <td className="px-5 py-3.5 text-slate-600">{p.task || '—'}</td>

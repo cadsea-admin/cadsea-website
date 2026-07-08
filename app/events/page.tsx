@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { getEvents } from '@/lib/notion'
 import type { NotionEvent } from '@/lib/notion'
@@ -17,17 +16,6 @@ function EventCard({ event, upcoming }: { event: NotionEvent; upcoming: boolean 
       {/* Full-card link to detail page */}
       <Link href={`/events/${event.id}`} className="absolute inset-0 z-0" aria-label={event.title} />
 
-      {/* Poster */}
-      {event.poster ? (
-        <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-100">
-          <Image src={event.poster} alt={event.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
-        </div>
-      ) : (
-        <div className="w-full aspect-[16/9] bg-gradient-to-br from-navy to-navy-light flex items-center justify-center">
-          <span className="text-white/20 text-5xl font-bold">C</span>
-        </div>
-      )}
-
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
         <span className={`self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 ${
@@ -36,12 +24,12 @@ function EventCard({ event, upcoming }: { event: NotionEvent; upcoming: boolean 
           {upcoming ? 'Upcoming' : 'Past'}
         </span>
 
-        <h3 className="text-navy font-bold text-lg leading-snug mb-2">{event.title}</h3>
+        <h3 className="text-navy font-bold text-xl leading-snug mb-4">{event.title}</h3>
 
-        <div className="space-y-1.5 mb-3">
+        <div className="space-y-2.5 mb-4 flex-1">
           {event.date && (
-            <div className="flex items-center gap-2 text-slate-500 text-sm">
-              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center gap-2.5 text-navy/80 font-medium">
+              <svg className="w-5 h-5 shrink-0 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -49,8 +37,8 @@ function EventCard({ event, upcoming }: { event: NotionEvent; upcoming: boolean 
             </div>
           )}
           {event.location && (
-            <div className="flex items-center gap-2 text-slate-500 text-sm">
-              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center gap-2.5 font-medium">
+              <svg className="w-5 h-5 shrink-0 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                   d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
@@ -60,20 +48,14 @@ function EventCard({ event, upcoming }: { event: NotionEvent; upcoming: boolean 
                 href={`https://maps.google.com/?q=${encodeURIComponent(event.location)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-navy hover:underline relative z-10"
+                className="text-navy/80 hover:text-navy hover:underline relative z-10"
               >{event.location}</a>
             </div>
           )}
         </div>
 
-        {event.description && (
-          <p className="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-4 flex-1">
-            {event.description}
-          </p>
-        )}
-
-        {upcoming && event.registerLink && (
-          <div className="mt-auto pt-2 relative z-10">
+        <div className="mt-auto pt-2 relative z-10">
+          {upcoming && event.registerLink ? (
             <a
               href={event.registerLink}
               target="_blank"
@@ -85,8 +67,15 @@ function EventCard({ event, upcoming }: { event: NotionEvent; upcoming: boolean 
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
               </svg>
             </a>
-          </div>
-        )}
+          ) : (
+            <Link
+              href={`/events/${event.id}`}
+              className="relative z-10 block w-full text-center py-2.5 rounded-lg border border-navy text-navy font-semibold text-sm group-hover:bg-navy group-hover:text-white transition-colors"
+            >
+              View Details
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -115,6 +104,7 @@ export default async function EventsPage() {
         </div>
       </section>
 
+      <div className="bg-slate-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-6 py-14 space-y-16">
 
         <section>
@@ -160,6 +150,7 @@ export default async function EventsPage() {
           </section>
         )}
 
+      </div>
       </div>
     </>
   )
