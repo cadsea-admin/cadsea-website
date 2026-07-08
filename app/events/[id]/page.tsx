@@ -5,6 +5,8 @@ import { marked } from 'marked'
 import { getEventById, getEventBlocks } from '@/lib/notion'
 import PosterLightbox from '@/app/components/PosterLightbox'
 
+export const revalidate = 86400
+
 type Props = { params: Promise<{ id: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

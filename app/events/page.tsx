@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { getEvents } from '@/lib/notion'
 import type { NotionEvent } from '@/lib/notion'
 
+export const revalidate = 86400
+
 export const metadata: Metadata = {
   title: 'Events',
   description: 'Upcoming and past events hosted by CADSEA.',
