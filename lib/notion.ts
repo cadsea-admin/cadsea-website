@@ -55,6 +55,7 @@ export type NotionEvent = {
   price: string
   image: string
   status: 'Upcoming' | 'Past' | 'Recap' | string
+  relatedEventUrl: string
 }
 
 function mapEvent(page: PageObjectResponse): NotionEvent {
@@ -68,6 +69,7 @@ function mapEvent(page: PageObjectResponse): NotionEvent {
     price: extractText(page.properties['Price']) || '0',
     image: extractFile(page.properties['Image']),
     status: extractStatus(page.properties['Status']),
+    relatedEventUrl: extractText(page.properties['RelatedEventUrl']),
   }
 }
 
