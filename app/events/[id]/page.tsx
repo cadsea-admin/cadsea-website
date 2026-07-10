@@ -96,7 +96,7 @@ export default async function EventDetailPage({ params }: Props) {
               )}
 
               {/* Location */}
-              {event.location && (
+              {event.location && event.status !== 'Recap' && (
                 <div className="flex items-center gap-3 text-slate-600">
                   <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
                     <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +122,7 @@ export default async function EventDetailPage({ params }: Props) {
               )}
 
               {/* Price */}
-              {event.price !== undefined && event.price !== '' && (
+              {event.status !== 'Recap' && event.price !== undefined && event.price !== '' && (
                 <div className="flex items-center gap-3 text-slate-600">
                   <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
                     <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +155,7 @@ export default async function EventDetailPage({ params }: Props) {
             </div>
 
             {/* Right: Google Map */}
-            {!isOnline && event.location && (
+            {event.status !== 'Recap' && !isOnline && event.location && (
               <div className="w-full md:w-72 lg:w-96 shrink-0 rounded-xl overflow-hidden border border-slate-100 shadow-sm h-56 md:h-auto">
                 <iframe
                   src={`https://maps.google.com/maps?q=${encodeURIComponent(locationQuery)}&output=embed`}
