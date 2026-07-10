@@ -45,7 +45,7 @@ function EventCard({ event }: { event: NotionEvent }) {
               <span>{event.date}</span>
             </div>
           )}
-          {event.location && (
+          {event.location && event.status !== 'Recap' && (
             <div className="flex items-center gap-2.5 font-medium">
               <svg className="w-5 h-5 shrink-0 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
@@ -65,7 +65,7 @@ function EventCard({ event }: { event: NotionEvent }) {
               )}
             </div>
           )}
-          {event.price !== undefined && event.price !== '' && (
+          {event.status !== 'Recap' && event.price !== undefined && event.price !== '' && (
             <div className="flex items-center gap-2.5 font-medium">
               <PriceIcon />
               <span className={event.price === '0' ? 'text-green-600 font-bold' : 'text-navy/80'}>
