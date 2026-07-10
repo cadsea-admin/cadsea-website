@@ -40,6 +40,8 @@ export default async function EventDetailPage({ params }: Props) {
 
   const upcoming = event.status === 'Upcoming'
   const html = markdown ? await marked(markdown) : ''
+  const isOnline = event.location === 'Online'
+  const locationQuery = [event.location, event.address].filter(Boolean).join(', ')
 
   return (
     <>
@@ -74,89 +76,99 @@ export default async function EventDetailPage({ params }: Props) {
 
           <h1 className="text-navy text-3xl md:text-4xl font-bold leading-tight mb-6">{event.title}</h1>
 
-          {/* Meta + Map */}
+          {/* Meta + Map two-column */}
           <div className="flex flex-col md:flex-row gap-6">
-          <div className="flex flex-col gap-3 flex-1">
-            {event.date && (
-              <div className="flex items-center gap-3 text-slate-600">
-                <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
-                  <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+            {/* Left: meta info */}
+            <div className="flex flex-col gap-3 flex-1">
+
+              {/* Date */}
+              {event.date && (
+                <div className="flex items-center gap-3 text-slate-600">
+                  <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <span className="font-medium">{event.date}</span>
+                </div>
+              )}
+
+              {/* Location */}
+              {event.location && (
+                <div className="flex items-center gap-3 text-slate-600">
+                  <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  {isOnline ? (
+                    <span className="font-medium">{event.location}</span>
+                  ) : (
+                    <a
+                      href={`https://maps.google.com/?q=${encodeURIComponent(locationQuery)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium hover:text-navy hover:underline"
+                    >
+                      {event.location}
+                      {event.address && <span className="block text-sm font-normal text-slate-500">{event.address}</span>}
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {/* Price */}
+              {event.price !== undefined && event.price !== '' && (
+                <div className="flex items-center gap-3 text-slate-600">
+                  <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <span className={`font-medium ${event.price === '0' ? 'text-green-600 font-bold' : ''}`}>
+                    {event.price === '0' ? 'FREE' : event.price}
+                  </span>
+                </div>
+              )}
+
+              {/* CTAs */}
+              <div className="flex flex-wrap gap-3 mt-4">
+                <a
+                  href={googleCalendarUrl(event)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-2.5 rounded-lg border border-slate-200 text-slate-600 font-medium text-sm hover:border-navy hover:text-navy transition-colors flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                </div>
-                <span className="font-medium">{event.date}</span>
+                  Add to Google Calendar
+                </a>
               </div>
-            )}
-            {event.location && (
-              <div className="flex items-center gap-3 text-slate-600">
-                <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
-                  <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                {event.location === 'Online' ? (
-                  <span className="font-medium">{event.location}</span>
-                ) : (
-                  <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent([event.location, event.address].filter(Boolean).join(', '))}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium hover:text-navy hover:underline"
-                  >
-                    {event.location}
-                    {event.address && <span className="block text-sm font-normal text-slate-500">{event.address}</span>}
-                  </a>
-                )}
-              </div>
-            )}
-            {event.price !== undefined && event.price !== '' && (
-              <div className="flex items-center gap-3 text-slate-600">
-                <div className="w-9 h-9 rounded-lg bg-navy/8 flex items-center justify-center shrink-0">
-                  <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <span className={`font-medium ${event.price === '0' ? 'text-green-600 font-bold' : ''}`}>
-                  {event.price === '0' ? 'FREE' : event.price}
-                </span>
-              </div>
-            )}
 
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-3 mt-6">
-            <a
-              href={googleCalendarUrl(event)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-2.5 rounded-lg border border-slate-200 text-slate-600 font-medium text-sm hover:border-navy hover:text-navy transition-colors flex items-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              Add to Google Calendar
-            </a>
-          </div>
-          </div>
-
-          {/* Map */}
-          {event.location && event.location !== 'Online' && (
-            <div className="w-full md:w-72 lg:w-96 shrink-0 rounded-xl overflow-hidden border border-slate-100 shadow-sm h-56 md:h-auto">
-              <iframe
-                src={`https://maps.google.com/maps?q=${encodeURIComponent([event.location, event.address].filter(Boolean).join(', '))}&output=embed`}
-                width="100%"
-                height="100%"
-                style={{ border: 0, minHeight: '224px' }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
             </div>
-          )}
+
+            {/* Right: Google Map */}
+            {!isOnline && event.location && (
+              <div className="w-full md:w-72 lg:w-96 shrink-0 rounded-xl overflow-hidden border border-slate-100 shadow-sm h-56 md:h-auto">
+                <iframe
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(locationQuery)}&output=embed`}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, minHeight: '224px' }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            )}
+
           </div>
         </div>
 
