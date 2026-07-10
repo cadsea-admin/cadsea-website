@@ -53,12 +53,16 @@ function EventCard({ event }: { event: NotionEvent }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <a
-                href={`https://maps.google.com/?q=${encodeURIComponent(event.location)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-navy/80 hover:text-navy hover:underline relative z-10"
-              >{event.location}</a>
+              {event.location === 'Online' ? (
+                <span className="text-navy/80">{event.location}</span>
+              ) : (
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(event.location)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-navy/80 hover:text-navy hover:underline relative z-10"
+                >{event.location}</a>
+              )}
             </div>
           )}
           {event.price !== undefined && event.price !== '' && (

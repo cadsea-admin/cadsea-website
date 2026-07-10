@@ -62,10 +62,10 @@ function mapEvent(page: PageObjectResponse): NotionEvent {
     id: page.id,
     title: extractText(page.properties['Title']),
     date: extractText(page.properties['Date']),
-    location: extractText(page.properties['Location']),
+    location: extractText(page.properties['Location']) || 'Online',
     address: extractText(page.properties['Address']),
     description: extractText(page.properties['Description']),
-    price: extractText(page.properties['Price']),
+    price: extractText(page.properties['Price']) || '0',
     image: extractFile(page.properties['Image']),
     status: extractStatus(page.properties['Status']),
   }

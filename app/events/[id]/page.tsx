@@ -97,15 +97,19 @@ export default async function EventDetailPage({ params }: Props) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <a
-                  href={`https://maps.google.com/?q=${encodeURIComponent([event.location, event.address].filter(Boolean).join(', '))}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium hover:text-navy hover:underline"
-                >
-                  {event.location}
-                  {event.address && <span className="block text-sm font-normal text-slate-500">{event.address}</span>}
-                </a>
+                {event.location === 'Online' ? (
+                  <span className="font-medium">{event.location}</span>
+                ) : (
+                  <a
+                    href={`https://maps.google.com/?q=${encodeURIComponent([event.location, event.address].filter(Boolean).join(', '))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium hover:text-navy hover:underline"
+                  >
+                    {event.location}
+                    {event.address && <span className="block text-sm font-normal text-slate-500">{event.address}</span>}
+                  </a>
+                )}
               </div>
             )}
             {event.price !== undefined && event.price !== '' && (
@@ -140,7 +144,7 @@ export default async function EventDetailPage({ params }: Props) {
           </div>
 
           {/* Map */}
-          {event.location && (
+          {event.location && event.location !== 'Online' && (
             <div className="w-full md:w-72 lg:w-96 shrink-0 rounded-xl overflow-hidden border border-slate-100 shadow-sm h-56 md:h-auto">
               <iframe
                 src={`https://maps.google.com/maps?q=${encodeURIComponent([event.location, event.address].filter(Boolean).join(', '))}&output=embed`}
