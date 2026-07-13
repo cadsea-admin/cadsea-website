@@ -110,6 +110,7 @@ export type Promoter = {
   name: string
   task: string
   count: string
+  note: string
 }
 
 export async function getPromoters(): Promise<Promoter[]> {
@@ -122,10 +123,32 @@ export async function getPromoters(): Promise<Promoter[]> {
     name: extractText(page.properties['Name']),
     task: extractText(page.properties['Task']),
     count: extractText(page.properties['Count']),
+    note: extractText(page.properties['Note']),
   }))
 }
 
-// ── Event Volunteers ───────────────────────────────────────────────────────
+// ── Volunteer List ─────────────────────────────────────────────────────────
+
+export type VolunteerInfo = {
+  id: string
+  name: string
+  contribution: string
+  hallOfFame: boolean
+}
+
+export async function getVolunteerList(): Promise<VolunteerInfo[]> {
+  const response = await notion.databases.query({
+    database_id: process.env.NOTION_EVENT_VOLUNTEERS_ID!,
+  })
+  return (response.results as PageObjectResponse[]).map((page) => ({
+    id: page.id,
+    name: extractText(page.properties['Name']),
+    contribution: extractText(page.properties['Contribution']),
+    hallOfFame: extractText(page.properties['2025 hall of fame']).toLowerCase() === 'yes',
+  }))
+}
+
+// ── Event Volunteers (legacy) ───────────────────────────────────────────────
 
 export type EventVolunteer = {
   id: string

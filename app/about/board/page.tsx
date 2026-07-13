@@ -18,23 +18,25 @@ const members: Member[] = [
   {
     name: 'Ken Jiang',
     roles: ['Chair of Board'],
-    image: '',
+    image: '/images/board/ken_jiang.jpg',
     bio: `Dr. Ken (Ximiao) Jiang is currently working as a Data Science Sr. Manager at Capital One bank, where he is leading the credit card fraud detection model risk management work. He also involved in the validation and risk management of various credit card acquisition, valuation and client management models. Prior to Capital One, Ken worked as a senior quantitative modeler at Fannie Mae for over 4 years, where his primary role was validating and researching various mortgage loan credit risk, prepayment risk and home price related models. Ken holds a PhD degree in engineering and a master's degree in statistics. He has many years of experience working in both academia and industry to use advanced statistical models to address real world problems. In his career, Ken has served multiple leading financial firms and key government agencies, including the OFR of the Treasury, SBA, USDOT, Capital One, Freddie Mac and Fannie Mae.`,
   },
   {
     name: 'Tiger Tang',
     roles: ['Vice Chair of Board', 'President'],
-    image: '',
+    image: '/images/board/TigerTang.png',
     bio: `Tiger Tang is an experienced Data Science leader with a commitment to building and fostering the Data Science community. Currently serving as a Senior Data Science Manager at CARFAX, where he leads a team specialising in data health, Natural Language Processing (NLP), and forecasting. Tiger believes in the transformative potential of data science, and he is passionate about sharing his knowledge and expertise with others. As a frequent speaker at industry conferences and schools, he enjoys empowering others to leverage data science tools to drive meaningful impact in their organisations and communities.`,
   },
   {
     name: 'Wanli Liu',
     roles: ['Board Member', 'Vice President'],
+    image: '/images/board/Wanli.jpg',
     bio: `Dr. Liu has 10+ years experience of applying Data Science (specialised in ML & NLP) in various industries including finance, law and biotechnology. He is leading the application of the latest AI technologies in consulting and financial industries with experiences in innovative organisations such as Deloitte and Capital One. He started his DS career as a Data Scientist at NCBI of NIH for biomedical search engine PubMed and volunteered to work on providing DS support for anti racial profiling projects with AAJC. He received BS from Nanjing University in China, MS from University of Rochester, and PhD in Computer Engineering from University of Maryland.`,
   },
   {
     name: 'Richard Xie',
     roles: ['Board Member', 'Former Chair of Board (2023–2024)'],
+    image: '/images/board/Richard.jpg',
     bio: `Dr. Richard Xie is currently a Data Science Manager at Amazon and an Adjunct Professor at George Washington University and George Mason University. Richard received his Ph.D. in Operations Research from George Mason University. He has successfully applied machine learning and AI methods to solve large-scale real-life challenges. At Amazon, he leads his team to apply state-of-the-art ML technology to help book lovers find their next great read. Prior to Amazon, he worked at Fannie Mae building information management systems for model risk management, and at Cylera as VP of Data Science, developing real-time streaming ML models for network anomaly detection.`,
   },
   {
@@ -46,6 +48,7 @@ const members: Member[] = [
   {
     name: 'Simon Zhang',
     roles: ['Board Member', 'Former Chair of Board (2021–2022)'],
+    image: '/images/board/JidongZhang.PNG',
     bio: `Jidong (Simon) Zhang is a seasoned quantitative modeler with 14 years of experience in financial risk management. He is currently Vice President at Wells Fargo, responsible for managing model risk related to the firm's $1.4 trillion deposit-taking business. Before Wells Fargo, Mr. Zhang worked at Santander (USA), Freddie Mac and Capital One. He was frequently invited as a keynote speaker at industry conferences and was recognized by GARP as an industry leader, contributing to the 2017 FRM exam questions. He received his M.S. in Statistics and Ph.D. (ABD) in Economics from the University of Georgia.`,
   },
   {

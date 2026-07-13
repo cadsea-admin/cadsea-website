@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import { getPromoters, getEventVolunteers } from '@/lib/notion'
-import type { EventVolunteer } from '@/lib/notion'
+import { getVolunteerList } from '@/lib/notion'
+import HallOfFameGrid from '@/app/components/HallOfFameGrid'
+import VolunteersTable from '@/app/components/VolunteersTable'
 
 export const revalidate = 86400
 
@@ -9,57 +10,9 @@ export const metadata: Metadata = {
   description: 'Meet the CADSEA volunteers who help promote our events and support our community.',
 }
 
-function groupByEvent(volunteers: EventVolunteer[]) {
-  const map = new Map<string, { date: string | null; names: string[] }>()
-  for (const v of volunteers) {
-    if (!v.eventName) continue
-    const key = v.eventName
-    if (!map.has(key)) map.set(key, { date: v.date, names: [] })
-    map.get(key)!.names.push(v.name)
-  }
-  return Array.from(map.entries()).map(([eventName, { date, names }]) => ({
-    eventName,
-    date,
-    names,
-  }))
-}
-
-function formatDate(dateStr: string | null) {
-  if (!dateStr) return ''
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
-}
-
-function RosetteBadge() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <ellipse key={i} cx="11" cy="4.5" rx="2" ry="3" fill="#e8a020" opacity="0.85"
-          transform={`rotate(${i * 45} 11 11)`} />
-      ))}
-      <circle cx="11" cy="11" r="5" fill="#e8a020" />
-      <circle cx="11" cy="11" r="3.5" fill="#f5b942" />
-      <circle cx="11" cy="11" r="1.5" fill="#0f2a5e" />
-    </svg>
-  )
-}
-
-
 export default async function VolunteersPage() {
-  const [promoters, eventVolunteers] = await Promise.all([
-    getPromoters(),
-    getEventVolunteers(),
-  ])
-
-  const groupedEvents = groupByEvent(eventVolunteers)
-  const sortedPromoters = [...promoters].sort((a, b) => {
-    if (a.count === 'All' && b.count !== 'All') return -1
-    if (a.count !== 'All' && b.count === 'All') return 1
-    return (parseInt(b.count) || 0) - (parseInt(a.count) || 0)
-  })
+  const volunteers = await getVolunteerList()
+  const hallOfFame = volunteers.filter((v) => v.hallOfFame)
 
   return (
     <>
@@ -80,88 +33,47 @@ export default async function VolunteersPage() {
         </div>
       </section>
 
-      {/* ── Promotion Team ── */}
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-6">
-            <span className="text-gold text-sm font-semibold tracking-widest uppercase">Recognition</span>
-            <h2 className="text-navy text-2xl font-bold mt-1">Promotion Team</h2>
-            <p className="text-slate-500 text-sm mt-1">Members who help spread the word about CADSEA events.</p>
-          </div>
+      {/* Hall of Fame 2025 */}
+      {hallOfFame.length > 0 && (
+        <section className="py-20 px-6 bg-navy relative overflow-hidden">
+          {/* Background glow */}
+          <div className="absolute inset-0 opacity-[0.04]" style={{
+            backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+          }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-gold/10 blur-3xl pointer-events-none" />
 
-          {promoters.length === 0 ? (
-            <p className="text-slate-400 text-sm">No data available.</p>
-          ) : (
-            <>
-              <div className="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-navy text-white text-left">
-                      <th className="px-5 py-4 font-semibold">Name</th>
-                      <th className="px-5 py-4 font-semibold">Channel / Task</th>
-                      <th className="px-5 py-4 font-semibold text-right">Events</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {sortedPromoters.map((p) => (
-                      <tr key={p.id} className="bg-white hover:bg-slate-50 transition-colors">
-                        <td className="px-5 py-3.5 font-semibold text-navy">{p.name}</td>
-                        <td className="px-5 py-3.5 text-slate-600">{p.task || '—'}</td>
-                        <td className="px-5 py-3.5 text-right">
-                          {p.count === 'All' ? (
-                            <span className="inline-flex justify-end" title="Participated in every event">
-                              <RosetteBadge />
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center justify-center min-w-[28px] h-7 rounded-full bg-navy/10 text-navy text-xs font-bold px-2">
-                              {p.count || '—'}
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+          <div className="relative max-w-5xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-12">
+              {/* Trophy icon */}
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold/20 border border-gold/30 mb-5">
+                <svg className="w-8 h-8 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/>
+                </svg>
               </div>
-              <p className="mt-3 text-xs text-slate-400 flex items-center gap-1.5">
-                <RosetteBadge />
-                Participated in every event
+              <h2 className="text-white text-4xl md:text-5xl font-bold">Hall of Fame</h2>
+              <p className="text-gold text-lg font-semibold tracking-widest mt-1">2025</p>
+              <p className="text-white/50 text-sm mt-3 max-w-md mx-auto">
+                Outstanding volunteers who went above and beyond for CADSEA this year.
               </p>
-            </>
-          )}
-        </div>
-      </section>
+            </div>
 
-      {/* ── Event Volunteers ── */}
+            {/* Cards — client component handles click-to-zoom */}
+            <HallOfFameGrid volunteers={hallOfFame} />
+          </div>
+        </section>
+      )}
+
+      {/* All Volunteers Table */}
       <section className="py-16 px-6 bg-slate-50">
         <div className="max-w-5xl mx-auto">
-          <div className="mb-6">
-            <span className="text-gold text-sm font-semibold tracking-widest uppercase">Recognition</span>
-            <h2 className="text-navy text-2xl font-bold mt-1">Event Volunteers</h2>
-            <p className="text-slate-500 text-sm mt-1">Volunteers who supported our events.</p>
+          <div className="mb-8">
+            <span className="text-gold text-sm font-semibold tracking-widest uppercase">Our Team</span>
+            <h2 className="text-navy text-2xl font-bold mt-1">All Volunteers 2025</h2>
+            <p className="text-slate-500 text-sm mt-1">Click any row to learn more.</p>
           </div>
-
-          {groupedEvents.length === 0 ? (
-            <p className="text-slate-400 text-sm">No data available.</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {groupedEvents.map(({ eventName, date, names }) => (
-                <div key={eventName} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                  <div className="bg-navy px-5 py-3.5 flex items-center justify-between gap-3">
-                    <h3 className="text-white font-semibold text-sm leading-snug">{eventName}</h3>
-                    {date && <span className="text-white/60 text-xs shrink-0">{formatDate(date)}</span>}
-                  </div>
-                  <div className="px-5 py-4 flex flex-wrap gap-2">
-                    {names.map((name) => (
-                      <span key={name} className="text-xs px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 font-medium border border-slate-200">
-                        {name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          <VolunteersTable volunteers={volunteers} />
         </div>
       </section>
     </>
