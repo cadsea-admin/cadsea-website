@@ -70,7 +70,7 @@ export default async function VolunteersPage() {
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
             <span className="text-gold text-sm font-semibold tracking-widest uppercase">Our Team</span>
-            <h2 className="text-navy text-2xl font-bold mt-1">All Volunteers 2025</h2>
+            <h2 className="text-navy text-2xl font-bold mt-1">All Volunteers</h2>
             <p className="text-slate-500 text-sm mt-1">Click any row to learn more.</p>
           </div>
           <VolunteersTable volunteers={volunteers} />
