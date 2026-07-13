@@ -29,6 +29,10 @@ const photoMap: Record<string, string> = {
   // Teng
   'teng': 'teng.jpg',
 
+  // Yaqi Liu
+  'yaqi': 'Yaqi Liu.jpg',
+  'yaqi liu': 'Yaqi Liu.jpg',
+
   // Tiger Tang
   'tiger': 'TigerTang.png',
   'tiger tang': 'TigerTang.png',
