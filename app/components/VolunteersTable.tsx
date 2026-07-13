@@ -26,7 +26,7 @@ function RosetteBadge({ size = 22 }: { size?: number }) {
 }
 
 function nameInitials(name: string) {
-  return name.trim().split(/\s+/).map((n) => n[0]).join('').toUpperCase().slice(0, 2)
+  return name.trim()[0]?.toUpperCase() ?? '?'
 }
 
 function VolunteerAvatar({ name, size }: { name: string; size: number }) {
