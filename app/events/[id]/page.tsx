@@ -182,20 +182,6 @@ export default async function EventDetailPage({ params }: Props) {
 
               </div>
 
-              {/* Right: Google Map */}
-              {!isOnline && event.location && (
-                <div className="w-full md:w-72 lg:w-96 shrink-0 rounded-xl overflow-hidden border border-slate-100 shadow-sm h-56 md:h-auto">
-                  <iframe
-                    src={`https://maps.google.com/maps?q=${encodeURIComponent(locationQuery)}&output=embed`}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0, minHeight: '224px' }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                </div>
-              )}
 
             </div>
           </div>
