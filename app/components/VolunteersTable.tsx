@@ -34,7 +34,7 @@ function VolunteerAvatar({ name, size }: { name: string; size: number }) {
   if (photo) {
     return (
       <div className="rounded-full overflow-hidden shrink-0 border-2 border-slate-200" style={{ width: size, height: size }}>
-        <Image src={`/volunteers/${photo}`} alt={name} width={size} height={size} className="w-full h-full object-cover" />
+        <Image src={`/images/volunteers/${photo}`} alt={name} width={size} height={size} className="w-full h-full object-cover" />
       </div>
     )
   }

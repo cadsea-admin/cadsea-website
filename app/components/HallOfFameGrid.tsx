@@ -34,7 +34,7 @@ function VolunteerAvatar({ name, size }: { name: string; size: number }) {
   if (photo) {
     return (
       <div className={cls} style={{ width: size, height: size }}>
-        <Image src={`/volunteers/${photo}`} alt={name} width={size} height={size} className="w-full h-full object-cover" />
+        <Image src={`/images/volunteers/${photo}`} alt={name} width={size} height={size} className="w-full h-full object-cover" />
       </div>
     )
   }
@@ -51,9 +51,7 @@ export default function HallOfFameGrid({ volunteers }: { volunteers: Volunteer[]
   return (
     <>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
-        {volunteers.map((v) => {
-          const photo = getVolunteerPhoto(v.name)
-          return (
+        {volunteers.map((v) => (
             <button
               key={v.id}
               onClick={() => setSelected(v)}
@@ -72,8 +70,7 @@ export default function HallOfFameGrid({ volunteers }: { volunteers: Volunteer[]
                 <p className="text-white/40 text-xs mt-1 leading-snug">{v.contribution}</p>
               )}
             </button>
-          )
-        })}
+        ))}
       </div>
 
       {/* Expand modal */}
