@@ -47,7 +47,6 @@ export default function Footer() {
             <p className="text-white/60 text-sm leading-relaxed">
               Chinese American Data Science and Engineering Association
             </p>
-            <p className="text-white/50 text-sm mt-2">Washington DC Area</p>
           </div>
 
           {/* Quick links */}

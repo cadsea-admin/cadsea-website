@@ -26,9 +26,7 @@ export default function HomePage() {
 
         <div className="relative max-w-7xl mx-auto px-6 py-32 md:py-44">
           <div className="max-w-3xl">
-            <span className="inline-block text-gold text-sm font-semibold tracking-widest uppercase mb-5">
-              Washington DC Area
-            </span>
+
             <h1 className="text-white text-4xl md:text-6xl font-bold leading-[1.15] tracking-tight">
               Chinese American Data Science &amp; Engineering Association
             </h1>
