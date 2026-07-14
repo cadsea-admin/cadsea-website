@@ -42,6 +42,7 @@ const advisors: Advisor[] = [
   },
   {
     name: 'Dr. Chao Wu',
+    image: '/images/advisory/wu chao.jpg',
     title: 'Maryland State Delegate',
     org: '',
     tags: ['Public Policy', 'STEM Education', 'Community Leadership'],
