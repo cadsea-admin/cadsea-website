@@ -268,17 +268,6 @@ Every push to the `main` branch on GitHub automatically triggers a Vercel deploy
 git push origin main  →  Vercel builds (~1 min)  →  Live at cadsea.org
 ```
 
-### Domain
-
-- **Domain:** `cadsea.org` / `www.cadsea.org`
-- **DNS provider:** Google Cloud DNS (under `cadsea-admin@gmail.com`)
-- **DNS records:**
-
-| Type | Name | Value |
-|---|---|---|
-| A | @ | 216.198.79.1 |
-| CNAME | www | 87bfdfda054033e5.vercel-dns-017.com |
-
 ---
 
 ## Accounts
